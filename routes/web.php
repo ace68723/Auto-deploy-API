@@ -25,4 +25,6 @@ $router->group(['prefix' => 'api/v1','namespace' => '\App\Http\Controllers'], fu
   $router->put('server/{id}','ServerController@deleteServer');
 
   $router->get('mapping','RelationController@index');
+
+  $router->post('githook','ProjectController@githook');
 });

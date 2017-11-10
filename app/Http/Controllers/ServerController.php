@@ -26,7 +26,7 @@ class ServerController extends Controller{
                                                    " " . $new_server["name"] .
                                                    " " . $new_server["ip"] .
                                                    " " . $new_server["user"] .
-                                                   " " . $new_server["password"] .
+                                                   " '" . $new_server["password"] . "'" .
                                                    " " . $new_server["path"] .
                                                    " " . $new_server["deploy_path"] .
                                                    " " . $new_server["branch"]

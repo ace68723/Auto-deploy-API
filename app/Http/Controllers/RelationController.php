@@ -15,14 +15,17 @@ class RelationController extends Controller{
                     ->join('projects', 'projects.id', '=', 'relations.project_id')
                     ->select(
 															'servers.id AS server_id',
-                              'servers.name AS server_name',
-                              'projects.name AS project_name',
+                              'servers.name AS name',
 															'projects.id AS project_id',
+                              'projects.name AS project_name',
+															'projects.localPath AS project_path',
                               'servers.ip',
                               'servers.user',
                               'servers.path',
                               'servers.deploy_path',
-                              'servers.branch')
+                              'servers.branch',
+															'servers.password')
+										->where('servers.deleted', 0)
                     ->get();
 
 		if ($Relations){

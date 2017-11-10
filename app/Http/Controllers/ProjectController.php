@@ -46,6 +46,17 @@ class ProjectController extends Controller{
 			$result['ea_data'] = $Projects;
 			return response()->json($result);
 		}
+	}
+
+	public function githook(Request $request){
+		$result = array();
+		//$repo_name = $request['repository']['full_name']
+		$repo_name = $request['full_name'];
+		$branch = explode("/", $request['ref']);
+		$branch = end($branch);
+		$echo = exec('python3 ../script/cli.py githook ' . $repo_name . ' ' . $branch);
+		echo ($echo);
+		$echo = json_decode($echo, true);
 
 	}
 }

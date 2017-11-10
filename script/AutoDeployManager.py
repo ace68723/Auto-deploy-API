@@ -4,7 +4,7 @@ import shlex
 import pexpect
 import os
 from pexpect import pxssh
-
+import requests
 
 #ROOT = '/root/Auto-dist'
 ROOT = '/Users/khalil/Documents/Auto-deploy-API/projects/'
@@ -18,23 +18,20 @@ class AutoDeployManager:
         print("Running: " + commond)
         call(shlex.split(commond))
 
-    def pullRepo(self, git_json):
+    def pullRepo(self, repo_name, branch):
         os.chdir(ROOT)
-        mapping = self.db.getAllRepo()
-        repo_name = git_json['repository']['full_name']
-        localPath = mapping[repo_name]['localPath']
-        branch = git_json['ref'].split("/")[-1]
-        # First pull locally
-        os.chdir(ROOT + '/' + localPath)
+        mapping = requests.get('http://localhost:8000/api/v1/mapping').json()
+        if not mapping or mapping['ev_error'] != 0:
+            return {"ev_error": 1, "ev_message": "Failed to load mapping"}
 
-        #os.chdir(ROOT)
-        # Then push
-        servers = mapping[repo_name]['servers']
+        servers = mapping['ea_data']
+        os.chdir(ROOT + '/' + repo_name)
+
         for i in servers:
-            if branch == i['branch'] and not i['deleted']:
+            print(i)
+            if i['branch'] == branch and i['project_name'] == repo_name:
                 self.doPull(i)
-        print('Successfully push to all remote')
-        return
+        return {"ev_error": 0}
 
     def doPull(self, server):
         '''

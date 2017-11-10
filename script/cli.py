@@ -9,7 +9,7 @@ import AutoDeployManager
 
 deployManager = AutoDeployManager.AutoDeployManager()
 method = sys.argv[1]
-available_methods = ['add_server', 'add_project']
+available_methods = ['add_server', 'add_project', 'githook']
 if method in available_methods:
     if method == 'add_server':
         #repoName, repoId, serverName, serverIP, serverUser, serverPassword, serverPath, deployPath, branch
@@ -18,6 +18,11 @@ if method in available_methods:
     if method == 'add_project':
         # sys.argv[2]: github
         print(json.dumps(deployManager.initProj(sys.argv[2])))
+
+    if method == 'githook':
+        # repo_name, branch
+        print(json.dumps(deployManager.pullRepo(sys.argv[2], sys.argv[3])))
+
 else:
     print({"ev_error": 1, "ev_message": "Method not available"})
 
