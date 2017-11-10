@@ -22,4 +22,6 @@ $router->group(['prefix' => 'api/v1','namespace' => '\App\Http\Controllers'], fu
 
   $router->post('server','ServerController@createServer');
   $router->get('server','ServerController@index');
+
+  $router->get('mapping','RelationController@index');
 });
