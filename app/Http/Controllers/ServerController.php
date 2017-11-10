@@ -71,7 +71,22 @@ class ServerController extends Controller{
 			$result['ea_data'] = $Servers;
 			return response()->json($result);
 		}
+  }
 
+  public function deleteServer($id){
+    $result = array();
+		# Check if key valid
+		if (!$id) {
+		    $result['ev_status'] = 1;
+				$result['ev_message'] = "Required key doesn't exsist";
+				return response()->json($result);
+		}
+    $server_id = intval($id);
+    Server::query()
+          ->where('id', $server_id)
+          ->update(['deleted' => 1]);
+    $result['ev_status'] = 0;
+    return response()->json($result);
 	}
 }
 ?>
