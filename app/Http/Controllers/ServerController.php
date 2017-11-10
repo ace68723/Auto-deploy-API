@@ -53,6 +53,7 @@ class ServerController extends Controller{
 
         if ($Relation){
           $result['ev_error'] = 0;
+					$result['ev_data'] = $server_id;
           return response()->json($result);
         }
 			}
@@ -86,6 +87,7 @@ class ServerController extends Controller{
           ->where('id', $server_id)
           ->update(['deleted' => 1]);
     $result['ev_status'] = 0;
+		# need to remove local remote as well
     return response()->json($result);
 	}
 }
