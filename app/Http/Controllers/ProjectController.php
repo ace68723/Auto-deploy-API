@@ -13,7 +13,7 @@ class ProjectController extends Controller{
 
 		# Check if key valid
 		if (!array_key_exists('iv_url', $request->all())) {
-		    $result['ev_status'] = 1;
+		    $result['ev_error'] = 1;
 				$result['ev_message'] = "Required key doesn't exsist";
 				return response()->json($result);
 		}
@@ -21,27 +21,28 @@ class ProjectController extends Controller{
 		# Run local script
 		$git_url = $request["iv_url"];
 		$echo = exec('python3 ../script/cli.py add_project https://github.com/ace68723/auto-deploy');
-		if ($echo){
+		$echo = json_decode($echo, true);
+
+		if ($echo && $echo['ev_error'] == 0){
+			# if succeed
 			$project_data = array();
-			$project_data['name'] = $echo;
-			$project_data['localPath'] = $echo;
+			$project_data['name'] = $echo['ev_data'];
+			$project_data['localPath'] = $echo['ev_data'];
 			$Project = Project::create($project_data);
 			if ($Project){
-				$result['ev_status'] = 0;
+				$result['ev_error'] = 0;
+				$result['ev_data'] = $Project->id;
 				return response()->json($result);
 			}
 		}
-
-		$result['ev_status'] = 1;
-		$result['ev_message'] = "Failed to add project";
-		return response()->json($result);
+		return response()->json($echo);
 	}
 
 	public function index(){
 		$result = array();
     $Projects  = Project::all();
 		if ($Projects){
-			$result['ev_status'] = 0;
+			$result['ev_error'] = 0;
 			$result['ea_data'] = $Projects;
 			return response()->json($result);
 		}

@@ -7,7 +7,7 @@ from pexpect import pxssh
 
 
 #ROOT = '/root/Auto-dist'
-ROOT = '/Users/khalil/Desktop/Auto-deploy-API/projects'
+ROOT = '/Users/khalil/Documents/Auto-deploy-API/projects/'
 
 
 class AutoDeployManager:
@@ -108,31 +108,27 @@ class AutoDeployManager:
         return True
 
     def addServer(self, repoName, repoId, serverName, serverIP, serverUser, serverPassword, serverPath, deployPath, branch):
-        repos = self.database.getAllRepo()
-        if repoName in repos:
-            new_server = {
-                "name": serverName,
-                "ip": serverIP,
-                "user": serverUser,
-                "password": serverPassword,
-                "path": serverPath,
-                "deploy_path": deployPath,
-                "branch": branch,
-                'deleted': False
-              }
-            self.database.addServer(new_server, repoId)
-        else:
-            return 1
-
+        new_server = {
+            "name": serverName,
+            "ip": serverIP,
+            "user": serverUser,
+            "password": serverPassword,
+            "path": serverPath,
+            "deploy_path": deployPath,
+            "branch": branch,
+            'deleted': False
+          }
         # Login to server and config
-        localPath = repos[repoName]['localPath']
+        localPath = repoName
         if self.configServer(new_server, repoName):
             # if setup succ, do add remote and pull
-            os.chdir(localPath)
+            os.chdir(ROOT + localPath)
             self.addGitRemote(new_server)
             self.doPull(new_server)
+        else:
+            return {"ev_error": 1, "ev_message": "Failed to configure server"}
         os.chdir(ROOT)
-        return 0
+        return {"ev_error": 0}
 
     # Init proj
     def initProj(self, git_url):
@@ -141,13 +137,15 @@ class AutoDeployManager:
         user = git_url.split('/')[-2]
         proj_name = git_url.split('/')[-1]
         full_name = user + '/' + proj_name
-        if not os.path.isdir(user):
+        if not os.path.isdir(user) and not os.path.isdir(full_name):
             commond = 'mkdir ' + user
             self.runLocalCommond(commond)
+        else:
+            return {"ev_error": 1, "ev_message": "Directory exist"}
         os.chdir(user)
         commond = 'git clone ' + git_url
         self.runLocalCommond(commond)
         os.chdir(ROOT)
-        return full_name
+        return {"ev_error": 0, "ev_data": full_name}
 
 #a = AutoDeployManager()

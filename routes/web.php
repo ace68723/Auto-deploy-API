@@ -20,6 +20,6 @@ $router->group(['prefix' => 'api/v1','namespace' => '\App\Http\Controllers'], fu
 	$router->post('project','ProjectController@createProject');
 	$router->get('project','ProjectController@index');
 
-  $router->post('server','ServertController@createServer');
+  $router->post('server','ServerController@createServer');
   $router->get('server','ServerController@index');
 });

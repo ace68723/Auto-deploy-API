@@ -17,9 +17,9 @@ if method in available_methods:
 
     if method == 'add_project':
         # sys.argv[2]: github
-        print(deployManager.initProj(sys.argv[2]))
+        print(json.dumps(deployManager.initProj(sys.argv[2])))
 else:
-    print(1)
+    print({"ev_error": 1, "ev_message": "Method not available"})
 
 '''
 python3 addServer.py init_proj https://github.com/khalilleo/Githook-Test
