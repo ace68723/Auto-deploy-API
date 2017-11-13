@@ -5,6 +5,7 @@ import pexpect
 import os
 from pexpect import pxssh
 import requests
+import mysql
 
 #ROOT = '/root/Auto-dist'
 ROOT = '/Users/khalil/Documents/Auto-deploy-API/projects/'
@@ -12,7 +13,7 @@ ROOT = '/Users/khalil/Documents/Auto-deploy-API/projects/'
 
 class AutoDeployManager:
     def __init__(self):
-        pass
+        self.db = mysql.mysql()
 
     def runLocalCommond(self, commond):
         print("Running: " + commond)
@@ -20,16 +21,18 @@ class AutoDeployManager:
 
     def pullRepo(self, repo_name, branch):
         os.chdir(ROOT)
-        mapping = requests.get('http://localhost:8000/api/v1/mapping').json()
-        if not mapping or mapping['ev_error'] != 0:
+        #mapping = requests.get('http://localhost:8000/api/v1/mapping').json()
+
+        mapping = self.db.getServerForProject(repo_name)
+        if not mapping:
             return {"ev_error": 1, "ev_message": "Failed to load mapping"}
 
-        servers = mapping['ea_data']
+        servers = mapping
         os.chdir(ROOT + '/' + repo_name)
 
         for i in servers:
-            print(i)
-            if i['branch'] == branch and i['project_name'] == repo_name:
+            #print(i)
+            if i['branch'] == branch:
                 self.doPull(i)
         return {"ev_error": 0}
 
@@ -134,10 +137,10 @@ class AutoDeployManager:
         user = git_url.split('/')[-2]
         proj_name = git_url.split('/')[-1]
         full_name = user + '/' + proj_name
-        if not os.path.isdir(user) and not os.path.isdir(full_name):
+        if not os.path.isdir(user):
             commond = 'mkdir ' + user
             self.runLocalCommond(commond)
-        else:
+        elif os.path.isdir(full_name):
             return {"ev_error": 1, "ev_message": "Directory exist"}
         os.chdir(user)
         commond = 'git clone ' + git_url

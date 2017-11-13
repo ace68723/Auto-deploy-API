@@ -20,7 +20,7 @@ class ProjectController extends Controller{
 
 		# Run local script
 		$git_url = $request["iv_url"];
-		$echo = exec('python3 ../script/cli.py add_project https://github.com/ace68723/auto-deploy');
+		$echo = exec('python3 ../script/cli.py add_project ' . $git_url);
 		$echo = json_decode($echo, true);
 
 		if ($echo && $echo['ev_error'] == 0){
