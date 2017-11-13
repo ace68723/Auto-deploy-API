@@ -17,14 +17,20 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api/v1','namespace' => '\App\Http\Controllers'], function($router)
 {
-	$router->post('project','ProjectController@createProject');
-	$router->get('project','ProjectController@index');
 
-  $router->post('server','ServerController@createServer');
-  $router->get('server','ServerController@index');
-  $router->put('server/{id}','ServerController@deleteServer');
+  $router->POST('/auth/login', 'AuthController@loginPost');
 
-  $router->get('mapping','RelationController@index');
+  $router->group(['middleware' => 'auth:api'], function($router)
+  {
+      $router->post('project','ProjectController@createProject');
+    	$router->get('project','ProjectController@index');
+
+      $router->post('server','ServerController@createServer');
+      $router->get('server','ServerController@index');
+      $router->put('server/{id}','ServerController@deleteServer');
+
+      $router->get('mapping','RelationController@index');
+  });
 
   $router->post('githook','ProjectController@githook');
 });
