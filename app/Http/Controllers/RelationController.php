@@ -23,8 +23,7 @@ class RelationController extends Controller{
                               'servers.user',
                               'servers.path',
                               'servers.deploy_path',
-                              'servers.branch',
-															'servers.password')
+                              'servers.branch')
 										->where('servers.deleted', 0)
                     ->get();
 
