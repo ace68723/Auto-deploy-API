@@ -48,7 +48,7 @@
 | branch     | string | git分支          |
 
 
-返回结果(默认JSON): （稍后更新！！！！！！！）
+返回结果(默认JSON):
 ```
 {
     "ev_error": 0,

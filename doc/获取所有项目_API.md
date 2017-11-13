@@ -39,7 +39,7 @@
 | name     | string | 项目名 |
 | localPath      | string | 本地路径(基于项目目录/projects/)          |
 
-返回结果(默认JSON): （稍后更新！！！！！！！）
+返回结果(默认JSON):
 ```
 {
     "ev_error": 0,

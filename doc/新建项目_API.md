@@ -30,7 +30,7 @@
 | ev_message | string | 报错信息     | 空          |
 | ev_data  | string  | 新建项目的id |            |
 
-返回结果(默认JSON): （稍后更新！！！！！！！）
+返回结果(默认JSON): 
 ```
 {
     "ev_error": 0,
