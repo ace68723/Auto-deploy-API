@@ -15,8 +15,7 @@
 
 | Tables | 类型及其范围 | 说明    | 默认值  |
 | ------ | ------ | ----- | ---- |
-| token   | string | 接口验证用 |      |
-
+| Authorization   | string | 接口验证用 |   "Bearer " + token   |
 接口说明：
 获取所有的服务器与项目mapping列表(包括所有信息)
 

@@ -13,7 +13,7 @@
 
 | Tables | 类型及其范围 | 说明    | 默认值  |
 | ------ | ------ | ----- | ---- |
-| token   | string | 接口验证用 |      |
+| Authorization   | string | 接口验证用 |   "Bearer " + token   |
 
 接口说明：
 新建项目
