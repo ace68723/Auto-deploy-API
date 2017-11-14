@@ -83,9 +83,7 @@ class ServerController extends Controller{
 				return response()->json($result);
 		}
     $server_id = intval($id);
-    Server::query()
-          ->where('id', $server_id)
-          ->update(['deleted' => 1]);
+		Server::deleteServer($server_id);
     $result['ev_status'] = 0;
 		# need to remove local remote as well
     return response()->json($result);
