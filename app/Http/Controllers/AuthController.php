@@ -32,19 +32,19 @@ class AuthController extends Controller
                       ->where('password', '=',  $request['password'])
                       ->first();
         if (!$user){
-          $result['ev_data'] = "User not found";
+          $result['ev_message'] = "User not found";
           $result['ev_error'] = 1;
           return $result;
         }
         $result = array();
         try {
           if (!$user || !$token=$this->jwt->fromUser($user)) {
-              $result['ev_data'] = "Invalid token";
+              $result['ev_message'] = "Invalid token";
               $result['ev_error'] = 1;
               return $result;
           }
         } catch (Exception $e) {
-            $result['ev_data'] = "Invalid credential";
+            $result['ev_message'] = "Invalid credential";
             $result['ev_error'] = 1;
             return $result;
         }
