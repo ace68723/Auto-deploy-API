@@ -14,7 +14,7 @@ class ServerController extends Controller{
 
 		# Check if key valid
 		if (!array_key_exists('io_server', $request->all())) {
-		    $result['ev_status'] = 1;
+		    $result['ev_error'] = 1;
 				$result['ev_message'] = "Required key doesn't exsist";
 				return response()->json($result);
 		}
@@ -59,7 +59,7 @@ class ServerController extends Controller{
 			}
 		}
 
-		$result['ev_status'] = 1;
+		$result['ev_error'] = 1;
 		$result['ev_message'] = "Failed to add server";
 		return response()->json($result);
 	}
@@ -68,7 +68,7 @@ class ServerController extends Controller{
 		$result = array();
     $Servers  = Server::all();
 		if ($Servers){
-			$result['ev_status'] = 0;
+			$result['ev_error'] = 0;
 			$result['ea_data'] = $Servers;
 			return response()->json($result);
 		}
@@ -78,13 +78,13 @@ class ServerController extends Controller{
     $result = array();
 		# Check if key valid
 		if (!$id) {
-		    $result['ev_status'] = 1;
+		    $result['ev_error'] = 1;
 				$result['ev_message'] = "Required key doesn't exsist";
 				return response()->json($result);
 		}
     $server_id = intval($id);
 		Server::deleteServer($server_id);
-    $result['ev_status'] = 0;
+    $result['ev_error'] = 0;
 		# need to remove local remote as well
     return response()->json($result);
 	}

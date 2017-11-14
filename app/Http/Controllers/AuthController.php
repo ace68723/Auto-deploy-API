@@ -33,25 +33,25 @@ class AuthController extends Controller
                       ->first();
         if (!$user){
           $result['ev_data'] = "User not found";
-          $result['ev_status'] = 1;
+          $result['ev_error'] = 1;
           return $result;
         }
         $result = array();
         try {
           if (!$user || !$token=$this->jwt->fromUser($user)) {
               $result['ev_data'] = "Invalid token";
-              $result['ev_status'] = 1;
+              $result['ev_error'] = 1;
               return $result;
           }
         } catch (Exception $e) {
             $result['ev_data'] = "Invalid credential";
-            $result['ev_status'] = 1;
+            $result['ev_error'] = 1;
             return $result;
         }
 
 
         $result['ev_token'] = $token;
-        $result['ev_status'] = 0;
+        $result['ev_error'] = 0;
         return response()->json($result);
     }
 }
