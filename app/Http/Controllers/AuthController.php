@@ -49,7 +49,6 @@ class AuthController extends Controller
             return $result;
         }
 
-
         $result['ev_token'] = $token;
         $result['ev_error'] = 0;
         return response()->json($result);
