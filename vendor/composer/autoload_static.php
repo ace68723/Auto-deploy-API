@@ -20,6 +20,7 @@ class ComposerStaticInit89e495afce2ffbe9d29c4ce3bab8fdf4
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
+            'palanik\\lumen\\Middleware\\' => 25,
         ),
         'W' => 
         array (
@@ -115,6 +116,10 @@ class ComposerStaticInit89e495afce2ffbe9d29c4ce3bab8fdf4
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'palanik\\lumen\\Middleware\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/palanik/lumen-cors',
         ),
         'Webmozart\\Assert\\' => 
         array (
